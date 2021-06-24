@@ -81,21 +81,21 @@ Windows Server 管理者の資格情報
 
 1. Azure portal で、**Cloud Shell** ウィンドウを閉じます。
 
-1. ラボ コンピューターから別のブラウザー タブを開き、[301-nested-vms-in-virtual-network Azure クイックスタート テンプレート](https://github.com/Azure/azure-quickstart-templates/tree/master/301-nested-vms-in-virtual-network) に移動して、「**Azure にデプロイする**」 を選択します。これにより、ブラウザーは自動的に Azure portal の**入れ子になった VM を持つ Hyper-V ホスト仮想マシン** ブレードにリダイレクトされます。
+1. ラボ コンピューターから別のブラウザー タブを開き、[nested-vms-in-virtual-network Azure QuickStart template](https://github.com/Azure/azure-quickstart-templates/tree/master/demos/nested-vms-in-virtual-network) に移動して、「**Azure にデプロイする**」 を選択します。これにより、ブラウザーは自動的に Azure portal の**入れ子になった VM を持つ Hyper-V ホスト仮想マシン** ブレードにリダイレクトされます。
 
 1. Azure portal の**入れ子になった VM を持つ Hyper-V ホスト仮想マシン** ブレードで、次の設定を指定します (他の設定は既定値のままにします)。
 
     | 設定 | 値 | 
     | --- | --- |
-    | 定期売買 | このラボで使用する Azure サブスクリプションの名前 |
+    | サブスクリプション | このラボで使用する Azure サブスクリプションの名前 |
     | リソース グループ | **az30312a-labRG** |
-    | ホスト パブリック IP アドレス名 | **az30312a-hv-vm-pip** |
-    | 仮想ネットワーク名 | **az30312a-hv-vnet** |
-    | ホスト ネットワークのインターフェイス 1 の名前 | **az30312a-hv-vm-nic1** |
-    | ホスト ネットワークのインターフェイス 2 の名前 | **az30312a-hv-vm-nic2** |
-    | ホスト仮想マシン名 | **az30312a-hv-vm** |
-    | ホスト管理者のユーザー名 | **Student** |
-    | ホスト管理者のパスワード | **Pa55w.rd1234** |
+    | Host Public IP Address Name | **az30312a-hv-vm-pip** |
+    | Virtual Network Name | **az30312a-hv-vnet** |
+    | Host Network Interface1Name | **az30312a-hv-vm-nic1** |
+    | Host Network Interface2Name | **az30312a-hv-vm-nic2** |
+    | Host Virtual Machine Name | **az30312a-hv-vm** |
+    | Host Admin Username | **Student** |
+    | Host Admin Password | **Pa55w.rd1234** |
 
 1. 「**Hyper-V Host Virtual Machine with nested VMs (入れ子になった VM による仮想マシンでの Hyper-V)**」ブレードで、「**レビュー + 作成**」を選択し、「**作成**」を選択します。
 
