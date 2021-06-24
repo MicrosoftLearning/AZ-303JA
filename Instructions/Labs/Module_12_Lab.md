@@ -65,10 +65,10 @@ Windows Server 管理者の資格情報
 
 1. Cloud Shell ペインのツールバーで、 **ファイルのアップロード/ダウンロード** アイコンを選択し、ドロップダウン メニューで **アップロード**を選択して、ファイル **\\\\\AZ303\\AllFiles\Labs\\12\\azuredeploy30312suba.json** を Cloud Shell ホーム ディレクトリにアップロードします。
 
-1. Cloud Shell ペインから次のコマンドを実行してリソースグループを作成します（ `<Azure region>`プレースホルダーを、サブスクリプションでの Azure VM のデプロイに使用可能で、ラボのコンピューターの場所に最も近い Azure リージョンの名前に置き換えます ）:
+1. Cloud Shell ペインから次のコマンドを実行してリソースグループを作成します。
 
    ```powershell
-   $location = '<Azure region>'
+   $location = 'eastus'
    New-AzSubscriptionDeployment `
      -Location $location `
      -Name az30312subaDeployment `
@@ -81,21 +81,21 @@ Windows Server 管理者の資格情報
 
 1. Azure portal で、**Cloud Shell** ウィンドウを閉じます。
 
-1. ラボ コンピューターから別のブラウザー タブを開き、[301-nested-vms-in-virtual-network Azure クイックスタート テンプレート](https://github.com/Azure/azure-quickstart-templates/tree/master/301-nested-vms-in-virtual-network) に移動して、「**Azure にデプロイする**」 を選択します。これにより、ブラウザーは自動的に Azure portal の**入れ子になった VM を持つ Hyper-V ホスト仮想マシン** ブレードにリダイレクトされます。
+1. ラボ コンピューターから別のブラウザー タブを開き、[nested-vms-in-virtual-network Azure QuickStart template](https://github.com/Azure/azure-quickstart-templates/tree/master/demos/nested-vms-in-virtual-network) に移動して、「**Azure にデプロイする**」 を選択します。これにより、ブラウザーは自動的に Azure portal の**入れ子になった VM を持つ Hyper-V ホスト仮想マシン** ブレードにリダイレクトされます。
 
 1. Azure portal の**入れ子になった VM を持つ Hyper-V ホスト仮想マシン** ブレードで、次の設定を指定します (他の設定は既定値のままにします)。
 
     | 設定 | 値 | 
     | --- | --- |
-    | 定期売買 | このラボで使用する Azure サブスクリプションの名前 |
+    | サブスクリプション | このラボで使用する Azure サブスクリプションの名前 |
     | リソース グループ | **az30312a-labRG** |
-    | ホスト パブリック IP アドレス名 | **az30312a-hv-vm-pip** |
-    | 仮想ネットワーク名 | **az30312a-hv-vnet** |
-    | ホスト ネットワークのインターフェイス 1 の名前 | **az30312a-hv-vm-nic1** |
-    | ホスト ネットワークのインターフェイス 2 の名前 | **az30312a-hv-vm-nic2** |
-    | ホスト仮想マシン名 | **az30312a-hv-vm** |
-    | ホスト管理者のユーザー名 | **Student** |
-    | ホスト管理者のパスワード | **Pa55w.rd1234** |
+    | Host Public IP Address Name | **az30312a-hv-vm-pip** |
+    | Virtual Network Name | **az30312a-hv-vnet** |
+    | Host Network Interface1Name | **az30312a-hv-vm-nic1** |
+    | Host Network Interface2Name | **az30312a-hv-vm-nic2** |
+    | Host Virtual Machine Name | **az30312a-hv-vm** |
+    | Host Admin Username | **Student** |
+    | Host Admin Password | **Pa55w.rd1234** |
 
 1. 「**Hyper-V Host Virtual Machine with nested VMs (入れ子になった VM による仮想マシンでの Hyper-V)**」ブレードで、「**レビュー + 作成**」を選択し、「**作成**」を選択します。
 
@@ -107,7 +107,7 @@ Windows Server 管理者の資格情報
 
 1. **az30312a-hv-vm** ブレードで、「**ネットワーク**」 を選択します。 
 
-1. **az30312a-hv-vm** で **| ネットワーク** ブレードで、**az30312a-hv-vm-nic1** を選択し、次に 「**受信ポート規則を追加する**」 を選択します。
+1. **ネットワーク** ブレードで、**az30312a-hv-vm-nic1** を選択し、次に 「**受信ポート規則を追加する**」 を選択します。
 
     > **注**: 必ず、パブリック IP アドレスが割り当てられている **az30312a-hv-vm-nic1** の設定を変更してください。
 
@@ -115,21 +115,21 @@ Windows Server 管理者の資格情報
 
     | 設定 | 値 | 
     | --- | --- |
-    | Destination port range | **3389** |
+    | 宛先ポート範囲 | **3389** |
     | プロトコル | **Any** |
     | 名前 | **AllowRDPInBound** |
 
 1. 「**az30312a-hv-vm**」 ブレードで、「**概要**」 を選択します。 
 
-1. 「**az30312a-hv-vm**」 ブレードで、ドロップダウン メニューから 「**接続**」、「**RDP**」 を選択し、「**RDP ファイルのダウンロード**」 をクリックします。
+1. 「**接続**」から「**RDP**」 を選択し、「**RDP ファイルのダウンロード**」 をクリックします。
 
-1. プロンプトが表示されたら、次の認証情報を入力します。
+1. ダウンロードした RDP ファイルを開き、プロンプトが表示されたら、次の認証情報を入力します。
 
 -  User Name (ユーザー名): **Student**
 
 -  パスワード: **Pa55w.rd1234**
 
-1. **az30312a-hv-vm** へのリモート デスクトップ セッション内で、「サーバーマネージャー」 ウィンドウの 「**ローカル サーバー**」 をクリックし、**IE セキュリティ強化の構成**ラベルの横にある 「**オン**」 リンクをクリックし、**IE セキュリティ強化の構成**ダイアログ ボックスで両方の 「**オフ**」 オプションを選択します 。
+1. **az30312a-hv-vm** のリモート デスクトップ セッション内で、「サーバーマネージャー」 ウィンドウの 「**ローカル サーバー**」 をクリックし、**IE Enhanced Security Configuration**ラベルの横にある 「**On**」 リンクをクリックし、**Internet Explorer Enhanced Security Configuration**ダイアログ ボックスで両方の 「**Off**」 オプションを選択します 。
 
 1. 「**az30306a-vm0**」 へのリモート デスクトップ セッション内で、Internet Explorer を起動し、[Microsoft Edge](https://www.microsoft.com/ja-jp/edge/business/download) のダウンロードページに移動し、Microsoft Edge インストーラーをダウンロードして、インストールを実行します。 
 
@@ -139,41 +139,41 @@ Windows Server 管理者の資格情報
 
 1. **Hyper-V マネージャー** コンソールで、**az30312a-hv-vm** ノードを選択し、「**新規**」 を選択し、カスケード メニューで 「**仮想マシン**」 を選択します。これにより、**新しい仮想マシン ウィザード**が起動します。 
 
-1. 「**新しい仮想マシン ウィザード**」 の 「**開始する前に**」 ページで、「**次へ >**」 を選択します。
+1. 「**New Virtual Machine Wizard**」 の 「**Before You Begin**」 ページで、「**Next >**」 を選択します。
 
-1. 「**新しい仮想マシン ウィザード**」 の 「**名前と場所を指定する**」 ページで、次の設定を指定し、「**次へ >**」 を選択します。
+1. 「**New Virtual Machine Wizard**」 の 「**Specify Name and Location**」 ページで、次の設定を指定し、「**Next >**」 を選択します。
 
     | 設定 | 値 | 
     | --- | --- |
-    | 名前 | **az30312a-vm1** | 
-    | 仮想マシンを別の場所に保存する | 選択済み | 
-    | 場所 | **F:\VMs** |
+    | Name | **az30312a-vm1** | 
+    | Store the virtual machine in a different location | チェックする | 
+    | Location | **F:\VMs** |
 
     > **注**: 必ず **F:\VMs** フォルダーを作成してください。
 
-1. 「**新しい仮想マシン ウィザード**」 の 「**世代を指定**」 ページで、「**世代 1**」 オプションが選択されていることを確認し、「**次へ >**」 を選択します:
+1. 「**Specify Generation**」 ページで、「**Generation 1**」 オプションが選択されていることを確認し、「**次へ >**」 を選択します:
 
-1. 「**新しい仮想マシン ウィザード**」 の 「**メモリの割り当て**」 ページで、「**起動メモリ**」 を 「**2048**」 に設定し、「**次へ >**」 を選択します。
+1. 「**Assign Memory**」 ページで、「**Startup memory**」 を 「**2048**」 に設定し、「**次へ >**」 を選択します。
 
-1. 「**新しい仮想マシン ウィザード**」 の 「**ネットワークを構成する**」 ページの 「**接続**」 ドロップダウン リストで、**NestedSwitch** を選択し、 「**次へ >**」 を選択します。
+1. 「**Configure Networking**」 ページの 「**Connection**」 ドロップダウン リストで、**NestedSwitch** を選択し、 「**Next >**」 を選択します。
 
-1. 「**新しい仮想マシン ウィザード**」 の 「**仮想ハード ディスクを接続する**」 ページで、オプション 「**既存の仮想ハード ディスクを使用する**」 を選択し、場所を **F:\VHDs** フォルダーにダウンロードした VHD ファイルに設定し、「**次へ >**」 を選択します。
+1. 「**Connect Virtual Hard Disk**」 ページで、オプション 「**Use an existing virtual hard disk**」 を選択し、場所を **F:\VHDs** フォルダーにダウンロードした VHD ファイルに設定し、「**Next >**」 を選択します。
 
-1. 「**新しい仮想マシンウィザード**」 の 「**概要**」 ページで、「**仕上げ**」 を選択します。
+1. 「**Completing the New Virtual Machine Wizard**」 ページで、「**Finish**」 を選択します。
 
-1. **Hyper-V マネージャー** コンソールで、新しく作成した仮想マシンを選択し、「**開始**」 を選択します。 
+1. **Hyper-V マネージャー** コンソールで、新しく作成した仮想マシンを選択し、「**Start**」 を選択します。 
 
-1. **Hyper-V マネージャー** コンソールで、仮想マシンが実行されていることを確認し、「**接続**」 を選択します。 
+1. **Hyper-V マネージャー** コンソールで、仮想マシンが実行されていることを確認し、「**Connect**」 を選択します。 
 
-1. 「**az30312a-vm1** への仮想マシン接続」 ウィンドウの 「**こんにちは**」 ページで、「**次へ**」 を選択します。 
+1. 「**az30312a-vm1** への仮想マシン接続」 ウィンドウの 「**Hi thereは**」 ページで言語を設定し、「**Next**」 を選択します。 
 
-1. 「**az30312a-vm1** への仮想マシン接続」 ウィンドウの 「**ライセンス条項**」 ページで、「**承諾**」 を選択します。 
+1. 「**az30312a-vm1** への仮想マシン接続」 ウィンドウの 「**License terms**」 ページで、「**Accept**」 を選択します。 
 
-1. 「**az30312a-vm1** への仮想マシン接続」 ウィンドウの 「**設定をカスタマイズする**」 ページで、組み込みの管理者アカウントのパスワードを **Pa55w.rd1234** に設定し、「**終了**」 を選択します。 
+1. 「**az30312a-vm1** への仮想マシン接続」 ウィンドウの 「**Customize settings**」 ページで、組み込みの管理者アカウントのパスワードを **Pa55w.rd1234** に設定し、「**Finish**」 を選択します。 
 
 1. 「**az30312a-vm1** への仮想マシン接続」 ウィンドウで、新しく設定したパスワードを使用してサインインします。
 
-1. 「**az30312a-vm1** への仮想マシン接続」 ウィンドウで、Windows PowerShell を起動し、**管理者:** で**Windows PowerShell** ウィンドウで次を実行して、コンピューター名を設定します。 
+1. 「**az30312a-vm1** への仮想マシン接続」 ウィンドウで、Windows PowerShell を**Run as administrator** で起動し、次を実行して、コンピューター名を設定します。 
 
    ```powershell
    Rename-Computer -NewName 'az30312a-vm1' -Restart
