@@ -108,13 +108,13 @@ None
    export STORAGE_CONNECTION_STRING=$(az storage account show-connection-string --name "${STORAGE_ACCOUNT_NAME}" --resource-group "${RESOURCE_GROUP_NAME}" -o tsv)
    ```
 
-1. Cloud Shell ペインから、次を実行して、Azure 関数によって処理される Blob をホストするコンテナーを作成します。
+1. Cloud Shell ペインから、次を実行して、Azure 関数によって監視される Blob をホストするコンテナーを作成します。
 
    ```sh
    az storage container create --name "${CONTAINER_NAME}" --account-name "${STORAGE_ACCOUNT_NAME}" --connection-string "${STORAGE_CONNECTION_STRING}"
    ```
 
-1. Cloud Shell ペインから次のコマンドを実行して、Azure Function 処理ブロブの監視をします。そのキーを変数に保存する Application Insights リソースを作成します。
+1. Cloud Shell ペインから次のコマンドを実行して、Azure Function によって監視するためのApplication Insights を作成し、そのキーを変数に保存します。
 
    ```sh
    export APPLICATION_INSIGHTS_NAME="az30314bi${PREFIX}"
@@ -124,7 +124,7 @@ None
    export APPINSIGHTS_KEY=$(az resource show --name "${APPLICATION_INSIGHTS_NAME}" --query "properties.InstrumentationKey" --resource-group "${RESOURCE_GROUP_NAME}" --resource-type "Microsoft.Insights/components" -o tsv)
    ```
 
-1. Cloud Shell ペインから、次を実行して、Azure Storage Blob の作成に対応するイベントを処理する Azure Function を作成します。
+1. Cloud Shell ペインから、次を実行して、Azure Storage Blob の作成イベントを監視し、処理する Azure Function を作成します。
 
    ```sh
    export FUNCTION_NAME="az30314f${PREFIX}"
@@ -132,7 +132,7 @@ None
    az functionapp create --name "${FUNCTION_NAME}" --resource-group "${RESOURCE_GROUP_NAME}" --app-insights "$APPLICATION_INSIGHTS_NAME" --app-insights-key "$APPINSIGHTS_KEY" --storage-account "${STORAGE_ACCOUNT_NAME}" --consumption-plan-location "${LOCATION}" --runtime "dotnet" --functions-version 2
    ```
 
-1. Cloud Shell ペインから、次を実行して、新しく作成された関数のアプリケーション設定を構成し、それを Application Insights および Azure Storage アカウントにリンクします。
+1. Cloud Shell ペインから、次を実行して、新しく作成された関数アプリに Application Insights および Azure Storage アカウントにリンクするための環境変数を定義します。
 
    ```sh
    az functionapp config appsettings set --name "${FUNCTION_NAME}" --resource-group "${RESOURCE_GROUP_NAME}" --settings "APPINSIGHTS_INSTRUMENTATIONKEY=$APPINSIGHTS_KEY" FUNCTIONS_EXTENSION_VERSION=~2
@@ -140,21 +140,21 @@ None
    az functionapp config appsettings set --name "${FUNCTION_NAME}" --resource-group "${RESOURCE_GROUP_NAME}" --settings "STORAGE_CONNECTION_STRING=$STORAGE_CONNECTION_STRING" FUNCTIONS_EXTENSION_VERSION=~2
    ```
 
-1. Azure ポータルに切り替えて、このタスクの前半で作成した Azure Function アプリのブレードに移動します。
+1. Azure ポータルに切り替えて、このタスクの前半で作成した Azure 関数 アプリのブレードに移動します。
 
-1. Azure 関数アプリ ブレードで、「**Functions**」 をクリックし、「**+ 追加**」 をクリックします。
+1. Azure 関数アプリ ブレードで、「**関数**」 をクリックし、「**+ 追加**」 をクリックします。
 
-1. **関数の追加**ブレードで、「**Azure Blob ストレージ トリガー**」 テンプレートを選択します。
+1. **関数の追加**ブレードで、**テンプレートの選択** から「**Azure Blob Storage Trigger**」 テンプレートを選択します。
 
-1. **関数の追加**ブレードで、次を指定し、「**追加**」 を選択して Azure 関数内に新し関数 を作成します。
+1. 下にスクロールして**テンプレートの詳細**セクションをで以下を指定し、「**追加**」 を選択して Azure 関数内に新しい関数 を作成します。
 
     | 設定 | 値 |
     | --- | --- |
-    | 名前 | **BlobTrigger** |
-    | パス | **workitems/{name}** |
-    | ストレージ アカウント接続 | **STORAGE_CONNECTION_STRING** |
+    | 新しい関数 | **BlobTrigger** |
+    | Path | **workitems/{name}** |
+    | Storage Account connection | **STORAGE_CONNECTION_STRING** |
 
-1. Azure 関数アプリの **BlobTrigger**関数 ブレードで、「**Code + Test**」 を選択し、run.csx ファイルのコンテンツを確認します。
+1. Azure 関数アプリの **BlobTrigger**関数 をクリックして開き、「**コードとテスト**」 を選択し、run.csx ファイルのコンテンツを確認します。
 
    ```csharp
    public static void Run(Stream myBlob, string name, ILogger log)
@@ -163,7 +163,7 @@ None
    }
    ```
 
-    > **注**: デフォルトでは、この関数は、新しい Blob の作成に対応するイベントを単純に記録するようにと構成されています。Blob 処理タスクを実行するには、このファイルのコンテンツを変更する必要があります。
+    > **注**: デフォルトでは、この関数は、新しい Blob の作成に対応するイベントを単純に記録するように構成されています。追加の Blob 処理タスクを実行するには、このファイルのコンテンツを変更する必要があります。
 
 #### タスク 2: Azure Function App Storage Blob トリガーの検証
 
@@ -195,15 +195,15 @@ None
 
 1. 関数アプリで、「**関数**」をクリックします。
 
-1. 関数の一覧で、関数の名前をクリックします。
+1. 関数の一覧で、**BlobTrigger** をクリックします。
 
-1. 「Azure Function アプリ」ブレードで、「**監視**」エントリをクリックします。
+1. 「BlobTrigger」ブレードで、「**モニター**」エントリをクリックします。
 
-1. Blob のアップロードを表す単一のイベントエントリに注意してください。エントリを選択して、「**呼び出し履歴**」の詳細を表示します。
+1. Blob のアップロードを表す単一のイベントエントリに注意してください。エントリを選択して、「**Invocation Details**」の詳細を表示します。
 
     > **注**: このエクササイズの Azure Function アプリは消費計画で実行されるため、 Blob のアップロードとトリガーされる関数の間に最大数分の遅延が生じる場合があります。App Service（Consumption ではなく）プランを使用して Function アプリを実装することにより、待ち時間を最小限に抑えることができます。
 
-1. 「**呼び出しの詳細**」で「**Application Insights」の「クエリの実行**」をクリックします。
+1. 「**Invocation Details**」で「**Application Insights」の「クエリの実行**」をクリックします。
 
 1. Application Insights ポータルで、自動生成された Kusto クエリとその結果を確認します。
 
@@ -233,7 +233,7 @@ None
    export PREFIX=$(echo `openssl rand -base64 5 | cut -c1-7 | tr '[:upper:]' '[:lower:]' | tr -cd '[[:alnum:]]._-'`)
    ```
 
-1. Cloud Shell ペインから次を実行して、ターゲットリソースグループとその既存のリソースをホストしている Azure リージョンを特定します。
+1. Cloud Shell ペインから次を実行して、リソースグループとその Azure リージョンを特定します。
 
    ```sh
    export RESOURCE_GROUP_NAME_EXISTING='az30314b-labRG'
@@ -281,7 +281,7 @@ None
    az storage queue create --name "${QUEUE_NAME}" --account-name "${STORAGE_ACCOUNT_NAME}" --connection-string "${STORAGE_CONNECTION_STRING}"
    ```
 
-1. Cloud Shell ペインから、次を実行して、Azure Storage アカウントの指定されたコンテナーへの Blob アップロードに応じて Azure Storage キューでメッセージの生成を促進する Event Grid サブスクリプションを作成します。
+1. Cloud Shell ペインから、次を実行して、Azure Storage アカウントの指定されたコンテナーへの Blob アップロードに応じて Azure Storage キューでメッセージを生成する Event Grid サブスクリプションを作成します。
 
    ```sh
    export QUEUE_SUBSCRIPTION_NAME="az30314cqsub${PREFIX}"
@@ -309,9 +309,9 @@ None
 
 1. この演習の前のタスクで作成したキューを表すエントリを選択します。
 
-1. キューには単一のメッセージが含まれていることに注意してください。エントリをクリックして、**メッセージ プロパティ**ブレードを表示します。
+1. キューには１つのメッセージが含まれていることに注意してください。エントリをクリックして、**メッセージ プロパティ**ブレードを表示します。
 
-1. **MESSAGE BODY** では、前のタスクでアップロードした Azure Storage Blob の URL を表す **URL** プロパティの値に注意してください。
+1. **メッセージ本文** では、前のタスクでアップロードした Azure Storage Blob の URL を表す **URL** プロパティの値に注意してください。
 
 #### タスク 3: ラボにデプロイした Azure リソースを削除する
 
